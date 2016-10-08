@@ -1,6 +1,8 @@
-fid=fopen('gps.csv');
+fid=fopen('gps.csv'); % input file
 b = [];%matrix going to create.
 j = 1;
+
+%convert text line into matix form
 while 1
     tline = fgetl(fid);
     if ~ischar(tline)
@@ -33,10 +35,14 @@ while 1
     j = j+1;
 end
 fclose(fid);
+
+%Subset only the required columns
 a=b;
 a(:,8:16)=[];
 a(:,3:5)=[];
 d=[];
+
+%convert the time
 for i=1:length(a);
     unix_time=a(i,2);
     unix_epoch = datenum(1970,1,1,0,0,0);
@@ -47,6 +53,8 @@ gps=[a(:,1) d a(:,3:4)];
 c=[];
 j=2;
 c(1,1)=0;
+
+% For each data point find the nearest locaiton of it
 for i=1:length(gps);    %EDIT STARTED
    if ((gps(i,3)>6.558 && gps(i,3)<6.562) && (gps(i,4)>46.508 && gps(i,4)<46.512)),
        if c((j-1),1)==1;
