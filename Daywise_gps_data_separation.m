@@ -1,6 +1,8 @@
-fid=fopen('gps.csv');
+fid=fopen('gps.csv'); %input file
 b = [];%matrix going to create.
 j = 1;
+
+% process text line into matrix
 while 1
     tline = fgetl(fid);
     if ~ischar(tline)
@@ -37,6 +39,8 @@ a=b;
 a(:,8:16)=[];
 a(:,3:5)=[];
 d=[];
+
+% convert the time format
 for i=1:length(a);
     unix_time=a(i,2);
     unix_epoch = datenum(1970,1,1,0,0,0);
@@ -45,6 +49,7 @@ for i=1:length(a);
 end;
 gps=[a(:,1) d a(:,3:4)];
 
+%convert the date
 g=datenum(datestr(gps(1,2),2));
 l=datenum(datestr((gps(size(gps,1),2)),2));
 for m=g:l,
